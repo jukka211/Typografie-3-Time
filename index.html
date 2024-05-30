@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Background Color</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow: hidden;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 95%;
+    align-items: center; /* Center horizontally */
+    text-align: center; 
+    
+}
+    
+
+button {
+    text-align: center;
+        border-radius: 50%;
+        width:45%;
+    height: 150px;
+    background-color: transparent;
+      
+      background-color: transparent;
+      color:white;
+      mix-blend-mode: exclusion;
+user-select: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    user-select: none; /* Standard syntax */
+    -webkit-user-select: none; /* Safari/Chrome */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE/Edge */
+    -webkit-touch-callout: none; /* Disable text selection on touch devices */
+}
+
+    </style>
+</head>
+<body><div class="container">
+    <button id="colorButton"></button>
+</div>
+    <script>
+        let holdTimer;
+        let interval;
+    
+        // Function to change the background color
+        function changeBackgroundColor() {
+            const colors = ['red', 'blue', 'lime', 'black'];
+            let currentColor = document.body.style.backgroundColor;
+            let nextColor = colors[(colors.indexOf(currentColor) + 1) % colors.length];
+            document.body.style.backgroundColor = nextColor;
+        }
+    
+        // Event listener for button press using mouse
+        document.getElementById('colorButton').addEventListener('mousedown', function() {
+            // Start a timer to check if the button is held for 1000ms
+            holdTimer = setTimeout(function() {
+                // Start changing the background color every second
+                changeBackgroundColor(); // Change immediately after 1000ms
+                interval = setInterval(changeBackgroundColor, 5000); // Continue changing every second
+            }, 5000);
+        });
+    
+        // Event listener for button release using mouse
+        document.getElementById('colorButton').addEventListener('mouseup', function() {
+            // Clear the hold timer and interval if the button is released
+            clearTimeout(holdTimer);
+            clearInterval(interval);
+        });
+    
+        // Event listener for mouse leaving the button
+        document.getElementById('colorButton').addEventListener('mouseleave', function() {
+            // Clear the hold timer and interval if the mouse leaves the button
+            clearTimeout(holdTimer);
+            clearInterval(interval);
+        });
+    
+        // Event listener for touch start
+        document.getElementById('colorButton').addEventListener('touchstart', function() {
+            // Start a timer to check if the button is held for 1000ms
+            holdTimer = setTimeout(function() {
+                // Start changing the background color every second
+                changeBackgroundColor(); // Change immediately after 1000ms
+                interval = setInterval(changeBackgroundColor, 5000); // Continue changing every second
+            }, 5000);
+        });
+    
+        // Event listener for touch end
+        document.getElementById('colorButton').addEventListener('touchend', function() {
+            // Clear the hold timer and interval if the touch ends
+            clearTimeout(holdTimer);
+            clearInterval(interval);
+        });
+    
+    </script>
+    
+</body>
+</html>
