@@ -1,115 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Change Background Color</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden;
-    overflow: hidden;
-}
-.container {
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Transition Animation</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    body{
+      margin: 0;
+    }
+  #colorBox {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(0, 0, 0); /* Start color: black */
+    transition: background-color 10s linear; /* Smooth transition over 2 seconds */
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    text-align: center;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    height: 95%;
-    align-items: center; /* Center horizontally */
-    text-align: center; 
-    
-}
-    
+    align-items: center;
+  }
 
-button {
+  button {
+    opacity: 0;
     text-align: center;
-        border-radius: 50%;
-        width:45%;
-    height: 150px;
+    width: 100px;
+    height:100px;
+    border-radius: 100%;
     background-color: transparent;
-      
-      background-color: transparent;
-      color:white;
-      mix-blend-mode: exclusion;
-user-select: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    user-select: none; /* Standard syntax */
-    -webkit-user-select: none; /* Safari/Chrome */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE/Edge */
-    -webkit-touch-callout: none; /* Disable text selection on touch devices */
-}
-
-    </style>
+    color: white;
+    mix-blend-mode: exclusion;
+  }
+  </style>
 </head>
-<body><div class="container">
-    <button id="colorButton"></button>
-</div>
-    <script>
-        let holdTimer;
-        let interval;
+<body>
+  <div id="colorBox"><button id="startButton">Press</button></div>
+  
+
+  <script>document.addEventListener('DOMContentLoaded', function() {
+    const colorBox = document.getElementById('colorBox');
+    const startButton = document.getElementById('startButton');
+  
+    // Initial color state (black)
+    const initialColor = 'rgb(0, 0, 0)';
+    // Target color state (white)
+    const targetColor = 'rgb(255, 255, 255)';
+  
+    // Function to animate color transition
+    function animateColorTransition() {
+      colorBox.style.backgroundColor = targetColor;
+    }
+  
+    // Function to reset color to initial state
+    function resetColorState() {
+      colorBox.style.backgroundColor = initialColor;
+    }
+  
+    // Listen for touchstart event on the button (for mobile) and click event (for desktop)
+    startButton.addEventListener('touchstart', function(event) {
+      event.preventDefault(); // Prevent default touch behavior (scrolling, etc.)
+      animateColorTransition();
+    });
+  
     
-        // Function to change the background color
-        function changeBackgroundColor() {
-            const colors = ['red', 'blue', 'lime', 'black'];
-            let currentColor = document.body.style.backgroundColor;
-            let nextColor = colors[(colors.indexOf(currentColor) + 1) % colors.length];
-            document.body.style.backgroundColor = nextColor;
-        }
+  
+    // Listen for touchend event to reset color state
+    startButton.addEventListener('touchend', function(event) {
+      event.preventDefault(); // Prevent default touch behavior (scrolling, etc.)
+      resetColorState();
+    });
+  
     
-        // Event listener for button press using mouse
-        document.getElementById('colorButton').addEventListener('mousedown', function() {
-            // Start a timer to check if the button is held for 1000ms
-            holdTimer = setTimeout(function() {
-                // Start changing the background color every second
-                changeBackgroundColor(); // Change immediately after 1000ms
-                interval = setInterval(changeBackgroundColor, 5000); // Continue changing every second
-            }, 5000);
-        });
-    
-        // Event listener for button release using mouse
-        document.getElementById('colorButton').addEventListener('mouseup', function() {
-            // Clear the hold timer and interval if the button is released
-            clearTimeout(holdTimer);
-            clearInterval(interval);
-        });
-    
-        // Event listener for mouse leaving the button
-        document.getElementById('colorButton').addEventListener('mouseleave', function() {
-            // Clear the hold timer and interval if the mouse leaves the button
-            clearTimeout(holdTimer);
-            clearInterval(interval);
-        });
-    
-        // Event listener for touch start
-        document.getElementById('colorButton').addEventListener('touchstart', function() {
-            // Start a timer to check if the button is held for 1000ms
-            holdTimer = setTimeout(function() {
-                // Start changing the background color every second
-                changeBackgroundColor(); // Change immediately after 1000ms
-                interval = setInterval(changeBackgroundColor, 5000); // Continue changing every second
-            }, 5000);
-        });
-    
-        // Event listener for touch end
-        document.getElementById('colorButton').addEventListener('touchend', function() {
-            // Clear the hold timer and interval if the touch ends
-            clearTimeout(holdTimer);
-            clearInterval(interval);
-        });
-    
-    </script>
-    
+  
+    // Reset color state if touch is cancelled (rare case)
+    startButton.addEventListener('touchcancel', function(event) {
+      event.preventDefault(); // Prevent default touch behavior (scrolling, etc.)
+      resetColorState();
+    });
+  });
+  
+  </script>
 </body>
 </html>
